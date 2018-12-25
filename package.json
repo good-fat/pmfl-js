@@ -1,0 +1,12 @@
+{
+  "name": "pmfl.js",
+  "version": "0.5.0",
+  "description": "A pattern matching function library instead of if and else for Javascript.",
+  "main": "dist/pmfl.js",
+  "repository": "https://github.com/good-fat/pmfl.js.git",
+  "author": "goodfat <web2018.com@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12"
+  }
+}

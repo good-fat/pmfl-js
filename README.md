@@ -2,6 +2,13 @@
 # 用于Javascript语言的模式匹配函数库
 - A pattern matching function library instead of if and else for Javascript.
 - 一种用于代替if和else的Javascript专用的模式匹配函数库
+## 安装
+## install
+```
+npm i pmfl --save
+//or
+yarn add pmfl
+```
 ## 为什么要使用pmfl？
 ## (Why use pmfl?)
 - if/else是C语言时代留下的产物，是过程式的；

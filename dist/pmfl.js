@@ -256,27 +256,27 @@ var numSet = exports.numSet = function numSet(str) {
   var mte = null;
   var lt = null;
   var lte = null;
-  var tempStr = str;
+  var tempStr = str.replace(/\s+/g, "");
   var tempArray = tempStr.split(",");
-  if (/^\[-?\d+,-?\d+\]$/.test(str) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(str)) {
+  if (/^\[-?\d+,-?\d+\]$/.test(tempStr) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
     mte = tempArray[0].replace(/[^0-9.-]/ig, "");
     lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,-?\d+\)$/.test(str) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(str)) {
+  } else if (/^\(-?\d+,-?\d+\)$/.test(tempStr) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
     mt = tempArray[0].replace(/[^0-9.-]/ig, "");
     lt = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\[-?\d+,-?\d+\)$/.test(str) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(str)) {
+  } else if (/^\[-?\d+,-?\d+\)$/.test(tempStr) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
     mte = tempArray[0].replace(/[^0-9.-]/ig, "");
     lt = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,-?\d+\]$/.test(str) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(str)) {
+  } else if (/^\(-?\d+,-?\d+\]$/.test(tempStr) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
     mt = tempArray[0].replace(/[^0-9.-]/ig, "");
     lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\[-?\d+,\)$/.test(str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(str)) {
+  } else if (/^\[-?\d+,\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
     mte = tempArray[0].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,\)$/.test(str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(str)) {
+  } else if (/^\(-?\d+,\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
     mt = tempArray[0].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(,-?\d+\]$/.test(str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(str)) {
+  } else if (/^\(,-?\d+\]$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
     lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(,-?\d+\)$/.test(str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(str)) {
+  } else if (/^\(,-?\d+\)$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
     lt = tempArray[1].replace(/[^0-9.-]/ig, "");
   } else if (/^\(,\)$/.test(str)) { }
   var play = function play(num) {

@@ -28,6 +28,7 @@ else{
 }
 //完成这两个需求需要如上代码，其实两段代码有很多重复的地方，但由于if/else的问题无法复用，造成代码冗余
 ```
+- pmfl代码是函数式的，是链式调用的，方便条件的自由组合与拆分，可以让代码更灵活
 - 用pmfl就可以解决以上的问题，下面展示能达到相同效果的pmfl的代码：
 ```javascript
 pmfl.make2().add([numSet("[0,0.5)")], (data)=>{console.log("小于0.5")})
@@ -38,4 +39,35 @@ pmfl.make2().add([numSet("[0,0.5)")], (data)=>{console.log("小于0.5")})
 .match([Math.random()])
 //感觉眼花缭乱？没关系，我们马上就开始了解pmfl的api吧
 ```
-- pmfl代码是函数式的，是链式调用的，方便条件的自由组合与拆分，可以让代码更灵活
+## pmfl的API解析
+#### pmfl
+##### - 类型：对象
+##### - 包含：
+- make函数：用于创造一个命名的pmfl子对象，用make函数创造的对象拥有add、neither、remove、clear、load、unload、match函数
+```javascript
+pmfl.make()
+```
+- make2函数：用于创造一个无命名的pmfl子对象，用make2函数创造的对象拥有add、neither、clear、load、match函数
+```javascript
+pmfl.make2()
+```
+- add函数：在make和make2函数之后使用，用于添加条件，make子对象之后的add函数按顺序接收字符串（条件名）、数组或函数（条件）、函数（满足条件后执行）三个参数，make2子对象之后的add函数按顺序接收数组或函数（条件）、函数（满足条件后执行）两个参数
+```javascript
+//make函数后的add
+pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
+//make2函数后的add
+pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
+```
+- neither函数：在make和make2函数之后使用，用于添加所有条件都不匹配的情况执行的函数
+```javascript
+pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
+.neither((data)=>{console.log(data[0])})
+pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
+.neither((data)=>{console.log(data[0])})
+```
+- remove函数：在make后使用，移除之前添加的条件，如果参数为空，代表移除neither条件
+```javascript
+pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
+.neither((data)=>{console.log(data[0])})
+remove("one")
+```

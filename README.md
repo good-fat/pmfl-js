@@ -3,10 +3,13 @@
 - A pattern matching function library instead of if and else for Javascript.
 - 一种用于代替if和else的Javascript专用的模式匹配函数库
 ## 为什么要使用pmfl？
-- if/else是C语言时代留下的产物，是过程式的；(If/else is the product of the C language era, it is procedural;)
-- if/else最大的问题是不够灵活，且无法复用，而pmfl可以解决这一问题，下面是一种常见情况的例子：(The biggest problem with if/else is that it is not flexible enough to be reused, and pmfl can solve this problem. Here is an example of a common situation:)
+- if/else是C语言时代留下的产物，是过程式的；
+- (If/else is the product of the C language era, it is procedural;)
+- if/else最大的问题是不够灵活，且无法复用，而pmfl可以解决这一问题，下面是一种常见情况的例子：
+- (The biggest problem with if/else is that it is not flexible enough to be reused, and pmfl can solve this problem. Here is an example of a common situation:)
 ```javascript
-//原始javascript代码，有两个需求(Original javascript code, there are two requirements)
+//原始javascript代码，有两个需求
+//(Original javascript code, there are two requirements)
 //需求1(one)
 let a = Math.random()
 if(a >= 0 && a < 0.5){
@@ -26,10 +29,15 @@ else if(b >= 0.5 && b < 0.8){
 else{
   console.log("大于等于0.8")
 }
-//完成这两个需求需要如上代码，其实两段代码有很多重复的地方，但由于if/else的问题无法复用，造成代码冗余(To complete these two requirements, you need the above code. In fact, there are a lot of duplicates in the two pieces of code, but the problem of if/else cannot be reused, resulting in code redundancy.)
+//完成这两个需求需要如上代码，其实两段代码有很多重复的地方，但由于if/else的问题无法复用，造成代码冗余
+//(To complete these two requirements, you need the above code.
+//In fact, there are a lot of duplicates in the two pieces of code,
+//but the problem of if/else cannot be reused, resulting in code redundancy.)
 ```
-- pmfl代码是函数式的，是链式调用的，方便条件的自由组合与拆分，可以让代码更灵活(The pmfl code is functional and is chained, allowing for free combination and splitting of conditions, which makes the code more flexible.)
-- 用pmfl就可以解决以上的问题，下面展示能达到相同效果的pmfl的代码：(The above problem can be solved with pmfl. The following shows the pmfl code that can achieve the same effect:)
+- pmfl代码是函数式的，是链式调用的，方便条件的自由组合与拆分，可以让代码更灵活
+- (The pmfl code is functional and is chained, allowing for free combination and splitting of conditions, which makes the code more flexible.)
+- 用pmfl就可以解决以上的问题，下面展示能达到相同效果的pmfl的代码：
+- (The above problem can be solved with pmfl. The following shows the pmfl code that can achieve the same effect:)
 ```javascript
 import { pmfl , numSet, ignore, type} from 'pmfl'
 pmfl.make2().add([numSet("[0,0.5)")], (data)=>{console.log("小于0.5")})
@@ -38,13 +46,18 @@ pmfl.make2().add([numSet("[0,0.5)")], (data)=>{console.log("小于0.5")})
 .add([numSet("[0.5,0.8)")], (data)=>{console.log("介于0.5和0.8之间")})
 .neither((data)=>{console.log("大于等于0.8")})
 .match([Math.random()])
-//感觉眼花缭乱？没关系，我们马上就开始了解pmfl的api吧(Feeling dazzled? It doesn't matter, we will start to understand the pmfl api right away.)
+//感觉眼花缭乱？没关系，我们马上就开始了解pmfl的api吧
+//(Feeling dazzled? It doesn't matter, we will start to understand the pmfl api right away.)
 ```
-## pmfl的API解析(Pmfl API parsing)
+## pmfl的API解析
+## (Pmfl API parsing)
 #### pmfl
-##### - 类型：对象(Type: object)
-##### - 包含：(contain:)
-- make函数：用于创造一个命名的pmfl子对象，用make函数创造的对象拥有add、neither、remove、clear、load、unload、match函数(Make function: used to create a named pmfl sub-object, the object created with the make function has add, neither, remove, clear, load, unload, match function)
+##### - 类型：对象
+##### - (Type: object)
+##### - 包含：
+##### - (contain:)
+- make函数：用于创造一个命名的pmfl子对象，用make函数创造的对象拥有add、neither、remove、clear、load、unload、match函数
+- (Make function: used to create a named pmfl sub-object, the object created with the make function has add, neither, remove, clear, load, unload, match function)
 ```javascript
 import { pmfl , numSet, ignore, type} from 'pmfl'
 pmfl.make()

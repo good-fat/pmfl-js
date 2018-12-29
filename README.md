@@ -133,14 +133,14 @@ pmfl.make().load(
   ["two",["def"],(data)=>{console.log(data[0])}]
 ).unload("one","two")
 ```
-- match函数：在make和make2函数后使用，用于匹配条件，匹配条件成功后会执行条件自带的函数，如果全部条件都不配不上会执行neither自带的函数
-- (Match function: used after the make and make2 functions, used to match the condition. After the matching condition is successful, the function that comes with the condition will be executed. If all the conditions are not matched, the function with neither will be executed.)
+- match函数：在make和make2函数后使用，用于匹配条件，匹配条件成功后会执行条件自带的函数，如果全部条件都不配不上会执行neither自带的函数，此函数还有第二个参数，如果第二个参数存在，则会把第二个参数传入回调函数
+- (Match function: Used after the make and make2 functions, used to match the condition. After the matching condition is successful, the function that comes with the condition will be executed. If all the conditions are not matched, the function with neither will be executed. This function has a second parameter. The second parameter exists, the second parameter will be passed to the callback function.)
 ```javascript
 import { pmfl , numSet, ignore, type} from 'pmfl'
 pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
 .neither((data)=>{console.log(data[0])}).match(["abc"]) //执行one条件，输出abc
 pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])}).match(["def"])  //执行neither，输出def
+.neither((data)=>{console.log(data[0])}).match(["def"],["fff"])  //执行neither，输出fff
 ```
 #### numSet
 ##### - 类型：函数

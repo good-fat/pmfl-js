@@ -97,7 +97,7 @@ var make = function make() {
     });
     return obj;
   };
-  var match = function match(args) {
+  var match = function match(args, otherArgs) {
     var key = null;
     var keyList = [];
     keyData.map(function(data) {
@@ -130,11 +130,20 @@ var make = function make() {
         }
       }
     }
-    if (key !== null) {
-      functionData.get(key)(args);
-    } else if (key === null && neitherData !== null) {
-      neitherData(args);
+    if (otherArgs !== undefined) {
+      if (key !== null) {
+        functionData.get(key)(otherArgs);
+      } else if (key === null && neitherData !== null) {
+        neitherData(otherArgs);
+      }
+    } else {
+      if (key !== null) {
+        functionData.get(key)(args);
+      } else if (key === null && neitherData !== null) {
+        neitherData(args);
+      }
     }
+
     return obj;
   };
   obj.add = add;
@@ -196,7 +205,7 @@ var make2 = function make2() {
     });
     return obj;
   };
-  var match = function match(args) {
+  var match = function match(args, otherArgs) {
     var key = null;
     var keyList = [];
     keyData.map(function(data) {
@@ -229,10 +238,18 @@ var make2 = function make2() {
         }
       }
     }
-    if (key !== null) {
-      functionData.get(key)(args);
-    } else if (key === null && neitherData !== null) {
-      neitherData(args);
+    if (otherArgs !== undefined) {
+      if (key !== null) {
+        functionData.get(key)(otherArgs);
+      } else if (key === null && neitherData !== null) {
+        neitherData(otherArgs);
+      }
+    } else {
+      if (key !== null) {
+        functionData.get(key)(args);
+      } else if (key === null && neitherData !== null) {
+        neitherData(args);
+      }
     }
     return obj;
   };

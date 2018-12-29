@@ -71,7 +71,7 @@ const make = () => {
     })
     return obj
   }
-  const match = (args) => {
+  const match = (args, otherArgs) => {
     let key = null
     let keyList = []
     keyData.map(data => keyList.push(data))
@@ -102,11 +102,21 @@ const make = () => {
         }
       }
     }
-    if (key !== null) {
-      functionData.get(key)(args)
-    } else if (key === null && neitherData !== null) {
-      neitherData(args)
+    if (otherArgs !== undefined) {
+      if (key !== null) {
+        functionData.get(key)(otherArgs)
+      } else if (key === null && neitherData !== null) {
+        neitherData(otherArgs)
+      }
     }
+    else {
+      if (key !== null) {
+        functionData.get(key)(args)
+      } else if (key === null && neitherData !== null) {
+        neitherData(args)
+      }
+    }
+
     return obj
   }
   obj.add = add
@@ -160,7 +170,7 @@ const make2 = () => {
     })
     return obj
   }
-  const match = (args) => {
+  const match = (args, otherArgs) => {
     let key = null
     let keyList = []
     keyData.map(data => keyList.push(data))
@@ -191,10 +201,19 @@ const make2 = () => {
         }
       }
     }
-    if (key !== null) {
-      functionData.get(key)(args)
-    } else if (key === null && neitherData !== null) {
-      neitherData(args)
+    if (otherArgs !== undefined) {
+      if (key !== null) {
+        functionData.get(key)(otherArgs)
+      } else if (key === null && neitherData !== null) {
+        neitherData(otherArgs)
+      }
+    }
+    else {
+      if (key !== null) {
+        functionData.get(key)(args)
+      } else if (key === null && neitherData !== null) {
+        neitherData(args)
+      }
     }
     return obj
   }

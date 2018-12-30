@@ -1,6 +1,6 @@
 {
   "name": "pmfl",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "A pattern matching function library instead of if and else for Javascript.",
   "main": "dist/pmfl.js",
   "repository": "https://github.com/good-fat/pmfl.js.git",

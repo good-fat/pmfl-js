@@ -115,15 +115,14 @@ var make = function make() {
         var count = 0;
         for (var j = 0; j < conditionData.get(keyList[i]).length; j++) {
           if (conditionData.get(keyList[i])[j] === undefined) {
-            if (args[j] === undefined)
-              count++
+            if (args[j] === undefined) count++;
+          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+            count++;
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
             count++;
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
             count++;
           } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
-            count++;
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
             count++;
           }
         }
@@ -226,15 +225,14 @@ var make2 = function make2() {
         var count = 0;
         for (var j = 0; j < conditionData.get(keyList[i]).length; j++) {
           if (conditionData.get(keyList[i])[j] === undefined) {
-            if (args[j] === undefined)
-              count++
+            if (args[j] === undefined) count++;
+          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+            count++;
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
             count++;
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
             count++;
           } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
-            count++;
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
             count++;
           }
         }

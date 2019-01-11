@@ -1,205 +1,296 @@
-# pmfl for Javascript
-# 用于Javascript语言的模式匹配函数库
-- A pattern matching function library instead of if and else for Javascript.
-- 一种用于代替if和else的Javascript专用的模式匹配函数库
-## 安装
-## install
+# pmfl
+### [中文文档](/README_CN.md)
+A `Javascript`-specific pattern matching function library for implementing the `if` and `else` functions.
+## `pmfl` means `pattern matching function library`
+- Implement the `if/else` function with a functional pattern matching API.
+- Freely increase or decrease conditions, the code is more flexible.
+- Not a substitute, but a supplement.
+- Multiple complementary APIs for more powerful pattern matching.
+- Depend on `Immutable.js`.
+# Sample program
+```javascript
+import { pmfl } from 'pmfl'
+pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([2])
+//log "it is two"
 ```
-npm i pmfl --save
-//or
+---
+# installation
+It is recommended to use yarn for installation.
+```
 yarn add pmfl
 ```
-## 为什么要使用pmfl？
-## (Why use pmfl?)
-- if/else是C语言时代留下的产物，是过程式的；
-- (If/else is the product of the C language era, it is procedural;)
-- if/else最大的问题是不够灵活，且无法复用，而pmfl可以解决这一问题，下面是一种常见情况的例子：
-- (The biggest problem with if/else is that it is not flexible enough to be reused, and pmfl can solve this problem. Here is an example of a common situation:)
-```javascript
-//原始javascript代码，有两个需求
-//(Original javascript code, there are two requirements)
-//需求1(one)
-let a = Math.random()
-if(a >= 0 && a < 0.5){
-  console.log("小于0.5")
-}
-else{
-  console.log("大于等于0.5")
-}
-//需求2(two)
-let b = Math.random()
-if(b >= 0 && b < 0.5){
-  console.log("小于0.5")
-}
-else if(b >= 0.5 && b < 0.8){
-  console.log("介于0.5和0.8之间")
-}
-else{
-  console.log("大于等于0.8")
-}
-//完成这两个需求需要如上代码，其实两段代码有很多重复的地方，但由于if/else的问题无法复用，造成代码冗余
-//(To complete these two requirements, you need the above code.
-//In fact, there are a lot of duplicates in the two pieces of code,
-//but the problem of if/else cannot be reused, resulting in code redundancy.)
+or
 ```
-- pmfl代码是函数式的，是链式调用的，方便条件的自由组合与拆分，可以让代码更灵活
-- (The pmfl code is functional and is chained, allowing for free combination and splitting of conditions, which makes the code more flexible.)
-- 用pmfl就可以解决以上的问题，下面展示能达到相同效果的pmfl的代码：
-- (The above problem can be solved with pmfl. The following shows the pmfl code that can achieve the same effect:)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make2().add([numSet("[0,0.5)")], (data)=>{console.log("小于0.5")})
-.neither((data)=>{console.log("大于等于0.5")})
-.match([Math.random()])
-.add([numSet("[0.5,0.8)")], (data)=>{console.log("介于0.5和0.8之间")})
-.neither((data)=>{console.log("大于等于0.8")})
-.match([Math.random()])
-//感觉眼花缭乱？没关系，我们马上就开始了解pmfl的api吧
-//(Feeling dazzled? It doesn't matter, we will start to understand the pmfl api right away.)
+npm i pmfl --save
 ```
-## pmfl的API解析
-## (Pmfl API parsing)
-#### pmfl
-##### - 类型：对象
-##### - (Type: object)
-##### - 包含：
-##### - (contain:)
-- make函数：用于创造一个命名的pmfl子对象，用make函数创造的对象拥有add、neither、remove、clear、load、unload、match函数
-- (Make function: used to create a named pmfl sub-object, the object created with the make function has add, neither, remove, clear, load, unload, match function)
+---
+# API
+---
+## Object
+### pmfl
+##### The object used to create the `pmfl` instance.
+#### contain
+- pmfl.make()
+- pmfl.make2()
+- pmfl.m()
+- pmfl.m2()
+---
+### ignore
+##### An object that can match any value.
+#### contain
+- ignore.isIgnore: Boolean
+#### example
 ```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make()
+import { pmfl, ignore } from 'pmfl'
+pmfl.make().add("one",[ignore],(data)=>{console.log("it is ignore")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([100])
+//log "it is ignore"
 ```
-- make2函数：用于创造一个无命名的pmfl子对象，用make2函数创造的对象拥有add、neither、clear、load、match函数
-- (Make2 function: used to create an unnamed pmfl sub-object, the object created with the make2 function has add, neither, clear, load, match function)
+---
+### type
+##### The object used for type matching.
+#### contain
+- type.boolean: String
+- type.number: String
+- type.string: String
+- type.function: String
+- type.array: String
+- type.date: String
+- type.regexp: String
+- type.object: String
+- type.error: String
+- type.of(data)
+#### example
 ```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make2()
+import { pmfl, type } from 'pmfl'
+pmfl.make().add("string",[type.string],(data)=>{console.log("it is string")})
+.add("array",[type.array],(data)=>{console.log("it is array")})
+.neither((data)=>{"it is neither"})
+.match([type.of("str")])
+//log "it is string"
 ```
-- add函数：在make和make2函数之后使用，用于添加条件，make子对象之后的add函数按顺序接收字符串（条件名）、数组或函数（条件）、函数（满足条件后执行）三个参数，make2子对象之后的add函数按顺序接收数组或函数（条件）、函数（满足条件后执行）两个参数
-- (Add function: used after the make and make2 functions to add conditions, the add function after the make sub-object receives the string (condition name), array or function (condition), function (execute after the condition) three parameters in order. , the add function after the make2 sub-object receives the array or function (condition), function (execute after the condition) two parameters in order)
+---
+### pmflObject
+##### One of the instance objects of `pmfl` is the return value of the `pmfl.make()` function.
+#### contain
+- pmflObject.add(key, condition, func)
+- pmflObject.neither(func)
+- pmflObject.remove(key)
+- pmflObject.clear()
+- pmflObject.load(...rest)
+- pmflObject.unload(...rest)
+- pmflObject.match(args, otherArgs)
+---
+### pmflObject2
+##### Another instance of 'pmfl' is the return value of the `pmfl.make2()` function. Unlike `pmflObject`, the matching data for this object cannot be removed.
+#### contain
+- pmflObject2.add(condition, func)
+- pmflObject2.neither(func)
+- pmflObject2.clear()
+- pmflObject2.load(...rest)
+- pmflObject2.match(args,otherArgs)
+---
+## method
+### pmfl.make()
+##### Call this function to return the instance object `pmflObject` of `pmfl`.
+#### return：pmflObject
+---
+### pmfl.m()
+##### Short for `pmfl.make()`.
+#### return：pmflObject
+---
+### pmfl.make2()
+##### Call this function to return the instance object `pmflObject2` of `pmfl`.
+#### return：pmflObject2
+---
+### pmfl.m2()
+##### Short for `pmfl.make2()`.
+#### return：pmflObject2
+---
+### pmflObject.add(key, condition, func)
+##### Add matching names, conditions, and callback functions to the `pmflObject` object. Abbreviated as `pmflObject.a(key, condition, func)`.
+#### parameter
+- `key: String` The name of the data to match.
+- `condition: Array/Function` The conditions for matching data.
+- `func: Function` A callback function that is executed when the matching data succeeds.
+#### return：pmflObject
+---
+### pmflObject.neither(func)
+##### The option that is executed when all conditions fail to match. Abbreviated as `pmflObject.n(func)`.
+#### parameter
+- `func: Function` A callback function that is executed when all conditions do not match.
+#### return：pmflObject
+---
+### pmflObject.remove(key)
+##### Remove the matching data that has been added to the `pmflObject` object. Abbreviated as `pmflObject.r(key)`.
+#### parameter
+- `key: String` The name of the matching data that needs to be removed. When `key` does not exist, remove the `neither` data.
+#### return：pmflObject
+---
+### pmflObject.clear()
+##### Remove all matching data, including `neither` data. Abbreviated as `pmflObject.c()`.
+#### return：pmflObject
+---
+### pmflObject.load(...rest)
+##### Add matching names, conditions, and callback functions to the `pmflObject` object in bulk. Abbreviated as `pmflObject.l(...rest)`.
+#### parameter
+- `rest: Array<Array>` Each element is an array of arrays. The data of 1, 2, and 3 of each element is the matching name, condition, and callback function added for the `pmflObject` object.
+#### return：pmflObject
+---
+### pmflObject.unload(...rest)
+##### The matching data that has been added in the `pmflObject` object is removed in batches. Abbreviated as `pmflObject.u(...rest)`.
+#### parameter
+- `rest: Array<String>` Each element of the array is a string and is the name of the matching data to be removed. When the length of the array is 0, it means that the `neither` data is removed.
+#### return：pmflObject
+---
+### pmflObject.match(args, otherArgs)
+##### Perform a match. Abbreviated as `pmflObject.m(args, otherArgs)`.
+#### parameter
+- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmflObject.add(key, condition, func)` function.
+- `otherArgs: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
+#### return：pmflObject
+---
+#### Example of using `pmflObject`
 ```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-//make函数后的add
-pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
-//make2函数后的add
-pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
-```
-- neither函数：在make和make2函数之后使用，用于添加所有条件都不匹配的情况执行的函数
-- (The neither function: used after the make and make2 functions, used to add functions that do not match all the conditions.)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])})
-pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])})
-```
-- remove函数：在make后使用，移除之前添加的条件，如果参数为空，代表移除neither条件
-- (Remove function: used after make, remove the previously added condition, if the parameter is empty, it means to remove the n condition)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])})
-.remove("one")
-```
-- clear函数：在make和make2函数后使用，移除所有条件（包括neither）
-- (Clear function: used after the make and make2 functions to remove all conditions (including neither))
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])}).clear() //前面添加的条件已全部被移除
-pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])}).clear()  //前面添加的条件已全部被移除
-```
-- load函数：在make和make2函数后使用，用于批量添加条件，函数参数格式见示例代码
-- (Load function: used after the make and make2 functions, used to add conditions in batches, the function parameters are shown in the sample code.)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
+import { pmfl } from 'pmfl'
+pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([2])
+//log "it is two"
+pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.remove("two")
+.match([2])
+//log "it is neither"
+pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.clear()
+.match([2])
+//no log
 pmfl.make().load(
-  ["one",["abc"],(data)=>{console.log(data[0])}],
-  ["two",["def"],(data)=>{console.log(data[0])}]
-)
+  ["one",[1],(data)=>{console.log("it is one")}],
+  ["two",[2],(data)=>{console.log("it is two")}]
+).neither((data)=>{"it is neither"})
+.match([2])
+//log "it is two"
+pmfl.make().load(
+  ["one",[1],(data)=>{console.log("it is one")}],
+  ["two",[2],(data)=>{console.log("it is two")}]
+).neither((data)=>{"it is neither"})
+.unload("one","two")
+.match([2])
+//log "it is neither"
+pmfl.make().add("one",(data)=>{return data[0]===1},(data)=>{console.log("it is one")})
+.add("two",[2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([1])
+//log "it is one"
+```
+---
+### pmflObject2.add(condition, func)
+##### Add matching conditions and callback functions to the `pmflObject2` object. Abbreviated as `pmflObject2.a(condition, func)`.
+#### parameter
+- `condition: Array/Function` The conditions for matching data.
+- `func: Function` The callback function executed after the match is successful.
+#### return：pmflObject2
+---
+### pmflObject2.neither(func)
+##### The option that is executed when all conditions fail to match. Abbreviated as `pmflObject2.n(func)`.
+#### parameter
+- `func: Function` A callback function that is executed when all conditions do not match.
+#### return：pmflObject2
+---
+### pmflObject2.clear()
+##### Remove all matching data, including `neither` data. Abbreviated as `pmflObject2.c()`.
+#### return：pmflObject2
+---
+### pmflObject2.load(...rest)
+##### Add matching conditions and callback functions to the `pmflObject2` object in batches. Abbreviated as `pmflObject2.l(...rest)`.
+#### parameter
+- `rest: Array<Array>` Each element is an array of arrays. The data of No. 1 and No. 2 of each element are the matching conditions and callback functions added for the `pmflObject2` object.
+#### return：pmflObject2
+---
+### pmflObject2.match(args,otherArgs)
+##### Perform a match. Abbreviated as `pmflObject2.m(args, otherArgs)`.
+#### parameter
+- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmflObject2.add(condition, func)` function.
+- `otherArgs: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
+#### return：pmflObject2
+---
+#### Example of using `pmflObject2`
+```javascript
+import { pmfl } from 'pmfl'
+pmfl.make2().add([1],(data)=>{console.log("it is one")})
+.add([2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([2])
+//log "it is two"
+pmfl.make2().add([1],(data)=>{console.log("it is one")})
+.add([2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.clear()
+.match([2])
+//no log
 pmfl.make2().load(
-  [["abc"],(data)=>{console.log(data[0])}],
-  [["def"],(data)=>{console.log(data[0])}]
-)
+  [[1],(data)=>{console.log("it is one")}],
+  [[2],(data)=>{console.log("it is two")}]
+).neither((data)=>{"it is neither"})
+.match([2])
+//log "it is two"
+pmfl.make2().add((data)=>{return data[0]===1},(data)=>{console.log("it is one")})
+.add([2],(data)=>{console.log("it is two")})
+.neither((data)=>{"it is neither"})
+.match([1])
+//log "it is one"
 ```
-- unload函数：在make函数之后使用，用于批量移除条件，可移除load和add函数添加的条件，参数为空代表移除neither条件
-- (Unload function: used after the make function, used to batch remove conditions, can remove the conditions added by the load and add functions, the parameter is empty to remove the n condition)
+---
+### numSet(str)
+##### Used to match mathematical intervals.
+#### parameter
+- `str: String` The mathematical interval representation of the `String` type. There are 9 ways to represent:
+1. closed interval： [1,2]  1<=n<=2
+2. Open interval： (1,2)  1<n<2
+3. Left closed right open interval： [1,2)  1<=n<2
+4. Left open right closed interval： (1,2]  1<n<=2
+5. Left closed interval： [1,)  1<=n
+6. Left open interval： (1,)  1<n
+7. Right closed interval： (,2]  n<=2
+8. Right open interval： (,2)  n<2
+9. Unbounded interval： (,)  Infinity, can match any object
+---
+#### Example used by `numSet(str)`
 ```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().load(
-  ["one",["abc"],(data)=>{console.log(data[0])}],
-  ["two",["def"],(data)=>{console.log(data[0])}]
-).unload("one","two")
+import { pmfl, numSet } from 'pmfl'
+pmfl.make2().add([numSet("[1,20]")], (data) => { console.log("it is 1~20") })
+  .add([numSet("(-20,-5)")], (data) => { console.log("it is -20~-5") })
+  .neither((data) => { console.log("it is neither") })
+  .match([2])  //log "it is 1~20"
+  .match([-20]) //log "it is neither"
+  .match([-10]) //log "it is -20~-5"
 ```
-- match函数：在make和make2函数后使用，用于匹配条件，匹配条件成功后会执行条件自带的函数，如果全部条件都不配不上会执行neither自带的函数，此函数还有第二个参数，如果第二个参数存在，则会把第二个参数传入回调函数
-- (Match function: Used after the make and make2 functions, used to match the condition. After the matching condition is successful, the function that comes with the condition will be executed. If all the conditions are not matched, the function with neither will be executed. This function has a second parameter. The second parameter exists, the second parameter will be passed to the callback function.)
+---
+### dataSet(...args)
+##### Used to match one of multiple data.
+#### parameter
+- `args: Array<Any>` A data set that needs to be matched.
+---
+#### Example used by `dataSet(...args)`
 ```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])}).match(["abc"]) //执行one条件，输出abc
-pmfl.make2().add(["abc"],(data)=>{console.log(data[0])})
-.neither((data)=>{console.log(data[0])}).match(["def"],["fff"])  //执行neither，输出fff
+import { pmfl, dataSet } from 'pmfl'
+pmfl.make2().add([dataSet(1,2,3,4,5)], (data) => { console.log("it is 1-5 numbers") })
+  .add([dataSet("1","2")], (data) => { console.log("it is 1 and 2 string") })
+  .neither((data) => { console.log("it is neither") })
+  .match([2])  //log "it is 1-5 numbers"
+  .match(["2"]) //log "it is 1 and 2 string"
+  .match([-10]) //log "it is neither"
 ```
-#### numSet
-##### - 类型：函数
-##### - (Type: function)
-##### - 介绍：numSet函数用于数学上的区间匹配，共有以下9种匹配模型
-##### - (Introduction: The numSet function is used for mathematical interval matching. There are 9 matching models below.)
-1. 闭区间(closed interval)： [1,2]  1<=n<=2
-2. 开区间(Open interval)： (1,2)  1<n<2
-3. 左闭右开区间(Left closed right open interval)： [1,2)  1<=n<2
-4. 左开右闭区间(Left open right closed interval)： (1,2]  1<n<=2
-5. 左闭区间(Left closed interval)： [1,)  1<=n
-6. 左开区间(Left open interval)： (1,)  1<n
-7. 右闭区间(Right closed interval)： (,2]  n<=2
-8. 右开区间(Right open interval)： (,2)  n<2
-9. 无界区间(Unbounded interval)： (,)  无穷，可以匹配任意对象(Infinity, can match any object)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",[numSet("[1,2]")],()=>{console.log("匹配one")})
-.neither(()=>{console.log("匹配neither")})
-.match([1.5]) // 输出"匹配one"
-.match([2])  // 输出"匹配one"
-.match([10])  // 输出"匹配neither"
-```
-#### ignore
-##### - 类型：对象
-##### - (Type: object)
-##### - 介绍：忽略匹配条件
-##### - (Introduction: Ignore matching conditions)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",[ignore,20],()=>{console.log("匹配one")})
-.neither(()=>{console.log("匹配neither")})
-.match([1.5,20]) // 输出"匹配one"
-.match([2,10])  // 输出"匹配neither"
-.match([10,20,30])  // 输出"匹配one"
-```
-#### type
-##### - 类型：对象
-##### - (Type: object)
-##### - 介绍：用于匹配特定类型的对象，包含如下类型：
-##### - (Introduction: Used to match specific types of objects, including the following types:)
-- boolean: "boolean"
-- number: "number"
-- string: "string"
-- function: "function"
-- array: "array"
-- date: "date"
-- regexp: "regexp"
-- object: "object"
-- error: "error"
-- of: 用于解析变量类型的函数(Function for parsing variable types)
-```javascript
-import { pmfl , numSet, ignore, type} from 'pmfl'
-pmfl.make().add("one",[type.number],()=>{console.log("匹配one")})
-.add("two",[type.string],()=>{console.log("匹配two")})
-.neither(()=>{console.log("匹配neither")})
-.match([type.of(1)]) // 输出"匹配one"
-.match([type.of("22")])  // 输出"匹配two"
-.match([type.of(1023.32)])  // 输出"匹配one"
-```
-## 许可证：MIT
-## License: MIT
+---
+# License: MIT

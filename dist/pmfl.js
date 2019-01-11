@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.type = exports.pmfl = exports.ignore = exports.numSet = undefined;
+exports.type = exports.pmfl = exports.ignore = exports.dataSet = exports.numSet = undefined;
 
 var _slicedToArray = function() { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -118,6 +118,8 @@ var make = function make() {
             if (args[j] === undefined) count++;
           } else if (conditionData.get(keyList[i])[j] === args[j]) {
             count++;
+          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+            count++;
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
             count++;
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
@@ -230,6 +232,8 @@ var make2 = function make2() {
             count++;
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
             count++;
+          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+            count++;
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
             count++;
           } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
@@ -338,6 +342,25 @@ var numSet = exports.numSet = function numSet(str) {
     } else {
       return true;
     }
+  };
+  obj.play = play;
+  return obj;
+};
+var dataSet = exports.dataSet = function dataSet() {
+  for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+    args[_key4] = arguments[_key4];
+  }
+
+  var obj = {
+    isDataSet: true
+  };
+  var play = function play(str) {
+    for (var i = 0; i < args.length; i++) {
+      if (str === args[i]) {
+        return true;
+      }
+    }
+    return false;
   };
   obj.play = play;
   return obj;

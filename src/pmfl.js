@@ -91,6 +91,8 @@ const make = () => {
               count++
           } else if (conditionData.get(keyList[i])[j] === args[j]) {
             count++
+          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+            count++
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
             count++
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
@@ -194,6 +196,8 @@ const make2 = () => {
           } else if (conditionData.get(keyList[i])[j] === args[j]) {
             count++
           } else if (conditionData.get(keyList[i])[j].isIgnore) {
+            count++
+          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
             count++
           } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
             count++
@@ -317,6 +321,21 @@ export const numSet = (str) => {
     } else {
       return true
     }
+  }
+  obj.play = play
+  return obj
+}
+export const dataSet = (...args)=>{
+  let obj = {
+    isDataSet: true
+  }
+  const play = (str) => {
+    for(let i = 0; i < args.length; i++){
+      if(str===args[i]){
+        return  true
+      }
+    }
+    return false
   }
   obj.play = play
   return obj

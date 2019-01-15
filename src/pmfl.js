@@ -1,4 +1,4 @@
-import Immutable from 'immutable'
+ import Immutable from 'immutable'
 //函数typeOf
 const typeOf = (obj) => {
   let class2type = {};
@@ -360,4 +360,7 @@ export const type = {
   , regexp: "regexp"
   , object: "object"
   , error: "error"
+  , symbol: "symbol"
+  , null: "null"
+  , undefined: "undefined"
 }

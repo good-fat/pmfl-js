@@ -384,5 +384,8 @@ var type = exports.type = {
   date: "date",
   regexp: "regexp",
   object: "object",
-  error: "error"
+  error: "error",
+  symbol: "symbol",
+  null: "null",
+  undefined: "undefined"
 };

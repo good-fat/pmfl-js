@@ -64,6 +64,9 @@ pmfl.make().add("one",[ignore],(data)=>{console.log("it is ignore")})
 - type.regexp: String
 - type.object: String
 - type.error: String
+- type.symbol: String
+- type.null: String
+- type.undefined: String
 - type.of(data)
 #### 例子
 ```javascript

@@ -1,8 +1,7 @@
- import Immutable from 'immutable'
-//函数typeOf
-const typeOf = (obj) => {
+import Immutable from 'immutable'
+const type_of = (obj) => {
   let class2type = {};
-  "Boolean Number String Function Array Date RegExp Object Error".split(" ").forEach(function(e, i) {
+  "Boolean Number String Function Array Date RegExp Object Error".split(" ").forEach(function(e) {
     class2type["[object " + e + "]"] = e.toLowerCase();
   });
   if (obj == null) {
@@ -15,110 +14,110 @@ const typeOf = (obj) => {
 
 const make = () => {
   let obj = {}
-  let keyData = Immutable.Map({})
-  let conditionData = Immutable.Map({})
-  let functionData = Immutable.Map({})
-  let neitherData = null
+  let key_data = Immutable.Map({})
+  let condition_data = Immutable.Map({})
+  let function_data = Immutable.Map({})
+  let neither_data = null
   const add = (key, condition, func) => {
-    keyData = keyData.set(key, key)
-    conditionData = conditionData.set(key, condition)
-    functionData = functionData.set(key, func)
+    key_data = key_data.set(key, key)
+    condition_data = condition_data.set(key, condition)
+    function_data = function_data.set(key, func)
     return obj
   }
   const neither = (func) => {
-    neitherData = func
+    neither_data = func
     return obj
   }
   const remove = (key) => {
     if (key === undefined) {
-      neitherData = null
+      neither_data = null
     }
-    if (keyData.has(key)) {
-      keyData = keyData.delete(key)
-      conditionData = conditionData.delete(key)
-      functionData = functionData.delete(key)
+    if (key_data.has(key)) {
+      key_data = key_data.delete(key)
+      condition_data = condition_data.delete(key)
+      function_data = function_data.delete(key)
     }
     return obj
   }
   const clear = () => {
-    keyData = Immutable.Map({})
-    conditionData = Immutable.Map({})
-    functionData = Immutable.Map({})
-    neitherData = null
+    key_data = Immutable.Map({})
+    condition_data = Immutable.Map({})
+    function_data = Immutable.Map({})
+    neither_data = null
     return obj
   }
   const load = (...rest) => {
     rest.map((data) => {
       let [key, condition, func] = data
-      keyData = keyData.set(key, key)
-      conditionData = conditionData.set(key, condition)
-      functionData = functionData.set(key, func)
+      key_data = key_data.set(key, key)
+      condition_data = condition_data.set(key, condition)
+      function_data = function_data.set(key, func)
       return null
     })
     return obj
   }
   const unload = (...rest) => {
     if (rest.length === 0) {
-      neitherData = null
+      neither_data = null
     }
     rest.map((data) => {
-      if (keyData.has(data)) {
-        keyData = keyData.delete(data)
-        conditionData = conditionData.delete(data)
-        functionData = functionData.delete(data)
+      if (key_data.has(data)) {
+        key_data = key_data.delete(data)
+        condition_data = condition_data.delete(data)
+        function_data = function_data.delete(data)
       }
       return null
     })
     return obj
   }
-  const match = (args, otherArgs) => {
+  const match = (args, other_args) => {
     let key = null
-    let keyList = []
-    keyData.map(data => keyList.push(data))
-    for (let i = 0; i < keyList.length; i++) {
+    let key_list = []
+    key_data.map(data => key_list.push(data))
+    for (let i = 0; i < key_list.length; i++) {
       if (key !== null) {
         break
       }
-      if (typeOf(conditionData.get(keyList[i])) === "function") {
-        if (conditionData.get(keyList[i])(args) === true) {
-          key = keyList[i]
+      if (type_of(condition_data.get(key_list[i])) === "function") {
+        if (condition_data.get(key_list[i])(args) === true) {
+          key = key_list[i]
         }
-      } else if (typeOf(conditionData.get(keyList[i])) === "array") {
+      } else if (type_of(condition_data.get(key_list[i])) === "array") {
         let count = 0
-        for (let j = 0; j < conditionData.get(keyList[i]).length; j++) {
-          if (conditionData.get(keyList[i])[j] === undefined) {
+        for (let j = 0; j < condition_data.get(key_list[i]).length; j++) {
+          if (condition_data.get(key_list[i])[j] === undefined) {
             if (args[j] === undefined)
               count++
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+          } else if (condition_data.get(key_list[i])[j] === args[j]) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_data_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isIgnore) {
+          } else if (condition_data.get(key_list[i])[j].is_ignore) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_num_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++
-          } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
+          } else if (type_of(condition_data.get(key_list[i])[j]) === "regexp" && condition_data.get(key_list[i])[j].test(args[j])) {
             count++
           }
         }
-        if (count === conditionData.get(keyList[i]).length) {
-          key = keyList[i]
+        if (count === condition_data.get(key_list[i]).length) {
+          key = key_list[i]
           break
         }
       }
     }
-    if (otherArgs !== undefined) {
+    if (other_args !== undefined) {
       if (key !== null) {
-        functionData.get(key)(otherArgs)
-      } else if (key === null && neitherData !== null) {
-        neitherData(otherArgs)
+        function_data.get(key)(other_args)
+      } else if (key === null && neither_data !== null) {
+        neither_data(other_args)
       }
     }
     else {
       if (key !== null) {
-        functionData.get(key)(args)
-      } else if (key === null && neitherData !== null) {
-        neitherData(args)
+        function_data.get(key)(args)
+      } else if (key === null && neither_data !== null) {
+        neither_data(args)
       }
     }
 
@@ -142,87 +141,87 @@ const make = () => {
 }
 const make2 = () => {
   let obj = {}
-  let keyData = Immutable.Map({})
-  let conditionData = Immutable.Map({})
-  let functionData = Immutable.Map({})
-  let neitherData = null
+  let key_data = Immutable.Map({})
+  let condition_data = Immutable.Map({})
+  let function_data = Immutable.Map({})
+  let neither_data = null
   const add = (condition, func) => {
     let tempMut = Symbol()
-    keyData = keyData.set(tempMut, tempMut)
-    conditionData = conditionData.set(tempMut, condition)
-    functionData = functionData.set(tempMut, func)
+    key_data = key_data.set(tempMut, tempMut)
+    condition_data = condition_data.set(tempMut, condition)
+    function_data = function_data.set(tempMut, func)
     return obj
   }
   const neither = (func) => {
-    neitherData = func
+    neither_data = func
     return obj
   }
   const clear = () => {
-    keyData = Immutable.Map({})
-    conditionData = Immutable.Map({})
-    functionData = Immutable.Map({})
-    neitherData = null
+    key_data = Immutable.Map({})
+    condition_data = Immutable.Map({})
+    function_data = Immutable.Map({})
+    neither_data = null
     return obj
   }
   const load = (...rest) => {
     rest.map((data) => {
       let tempMut = Symbol()
       let [condition, func] = data
-      keyData = keyData.set(tempMut, tempMut)
-      conditionData = conditionData.set(tempMut, condition)
-      functionData = functionData.set(tempMut, func)
+      key_data = key_data.set(tempMut, tempMut)
+      condition_data = condition_data.set(tempMut, condition)
+      function_data = function_data.set(tempMut, func)
       return null
     })
     return obj
   }
-  const match = (args, otherArgs) => {
+  const match = (args, other_args) => {
     let key = null
-    let keyList = []
-    keyData.map(data => keyList.push(data))
-    for (let i = 0; i < keyList.length; i++) {
+    let key_list = []
+    key_data.map(data => key_list.push(data))
+    for (let i = 0; i < key_list.length; i++) {
       if (key !== null) {
         break
       }
-      if (typeOf(conditionData.get(keyList[i])) === "function") {
-        if (conditionData.get(keyList[i])(args) === true) {
-          key = keyList[i]
+      if (type_of(condition_data.get(key_list[i])) === "function") {
+        if (condition_data.get(key_list[i])(args) === true) {
+          key = key_list[i]
         }
-      } else if (typeOf(conditionData.get(keyList[i])) === "array") {
+      } else if (type_of(condition_data.get(key_list[i])) === "array") {
         let count = 0
-        for (let j = 0; j < conditionData.get(keyList[i]).length; j++) {
-          if (conditionData.get(keyList[i])[j] === undefined) {
+        for (let j = 0; j < condition_data.get(key_list[i]).length; j++) {
+          if (condition_data.get(key_list[i])[j] === undefined) {
             if (args[j] === undefined)
               count++
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+          } else if (condition_data.get(key_list[i])[j] === args[j]) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isIgnore) {
+          } else if (condition_data.get(key_list[i])[j].is_ignore) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_data_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++
-          } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_num_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++
-          } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
+          } else if (type_of(condition_data.get(key_list[i])[j]) === "regexp" && condition_data.get(key_list[i])[j].test(args[j])) {
             count++
           }
         }
-        if (count === conditionData.get(keyList[i]).length) {
-          key = keyList[i]
+        if (count === condition_data.get(key_list[i]).length) {
+          key = key_list[i]
           break
         }
       }
     }
-    if (otherArgs !== undefined) {
+    if (other_args !== undefined) {
       if (key !== null) {
-        functionData.get(key)(otherArgs)
-      } else if (key === null && neitherData !== null) {
-        neitherData(otherArgs)
+        function_data.get(key)(other_args)
+      } else if (key === null && neither_data !== null) {
+        neither_data(other_args)
       }
     }
     else {
       if (key !== null) {
-        functionData.get(key)(args)
-      } else if (key === null && neitherData !== null) {
-        neitherData(args)
+        function_data.get(key)(args)
+      } else if (key === null && neither_data !== null) {
+        neither_data(args)
       }
     }
     return obj
@@ -239,52 +238,52 @@ const make2 = () => {
   obj.m = match
   return obj
 }
-export const numSet = (str) => {
+export const num_set = (str) => {
   let obj = {
-    isNumSet: true
+    is_num_set: true
   }
   let mt = null
   let mte = null
   let lt = null
   let lte = null
-  let tempStr = str.replace(/\s+/g, "");
-  let tempArray = tempStr.split(",")
-  if (/^\[-?\d+,-?\d+\]$/.test(tempStr) ||
-    /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) ||
-    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) ||
-    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "")
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "")
-  } else if (/^\(-?\d+,-?\d+\)$/.test(tempStr) ||
-    /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) ||
-    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) ||
-    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "")
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "")
-  } else if (/^\[-?\d+,-?\d+\)$/.test(tempStr) ||
-    /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) ||
-    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) ||
-    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "")
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "")
-  } else if (/^\(-?\d+,-?\d+\]$/.test(tempStr) ||
-    /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) ||
-    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) ||
-    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "")
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "")
-  } else if (/^\[-?\d+,\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "")
-  } else if (/^\(-?\d+,\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "")
-  } else if (/^\(,-?\d+\]$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "")
-  } else if (/^\(,-?\d+\)$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "")
+  let temp_str = str.replace(/\s+/g, "");
+  let temp_array = temp_str.split(",")
+  if (/^\[-?\d+,-?\d+\]$/.test(temp_str) ||
+    /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str) ||
+    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(temp_str) ||
+    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "")
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "")
+  } else if (/^\(-?\d+,-?\d+\)$/.test(temp_str) ||
+    /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str) ||
+    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(temp_str) ||
+    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "")
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "")
+  } else if (/^\[-?\d+,-?\d+\)$/.test(temp_str) ||
+    /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str) ||
+    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(temp_str) ||
+    /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "")
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "")
+  } else if (/^\(-?\d+,-?\d+\]$/.test(temp_str) ||
+    /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str) ||
+    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(temp_str) ||
+    /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "")
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "")
+  } else if (/^\[-?\d+,\)$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "")
+  } else if (/^\(-?\d+,\)$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "")
+  } else if (/^\(,-?\d+\]$/.test(temp_str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "")
+  } else if (/^\(,-?\d+\)$/.test(temp_str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "")
   } else if (/^\(,\)$/.test(str)) {
   }
   const play = (num) => {
-    if (typeOf(num) !== 'number') {
+    if (type_of(num) !== 'number') {
       return false
     }
     let count = -4
@@ -325,14 +324,14 @@ export const numSet = (str) => {
   obj.play = play
   return obj
 }
-export const dataSet = (...args)=>{
+export const data_set = (...args) => {
   let obj = {
-    isDataSet: true
+    is_data_set: true
   }
   const play = (str) => {
-    for(let i = 0; i < args.length; i++){
-      if(str===args[i]){
-        return  true
+    for (let i = 0; i < args.length; i++) {
+      if (str === args[i]) {
+        return true
       }
     }
     return false
@@ -341,7 +340,7 @@ export const dataSet = (...args)=>{
   return obj
 }
 export const ignore = {
-  isIgnore: true
+  is_ignore: true
 }
 export const pmfl = {
   make: make
@@ -350,7 +349,7 @@ export const pmfl = {
   , m2: make2
 }
 export const type = {
-  of: typeOf
+  of: type_of
   , boolean: "boolean"
   , number: "number"
   , string: "string"

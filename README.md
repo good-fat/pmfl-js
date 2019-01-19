@@ -41,7 +41,7 @@ npm i pmfl --save
 ### ignore
 ##### An object that can match any value.
 #### contain
-- ignore.isIgnore: Boolean
+- ignore.is_ignore: Boolean
 #### example
 ```javascript
 import { pmfl, ignore } from 'pmfl'
@@ -78,87 +78,87 @@ pmfl.make().add("string",[type.string],(data)=>{console.log("it is string")})
 //log "it is string"
 ```
 ---
-### pmflObject
+### pmfl_object
 ##### One of the instance objects of `pmfl` is the return value of the `pmfl.make()` function.
 #### contain
-- pmflObject.add(key, condition, func)
-- pmflObject.neither(func)
-- pmflObject.remove(key)
-- pmflObject.clear()
-- pmflObject.load(...rest)
-- pmflObject.unload(...rest)
-- pmflObject.match(args, otherArgs)
+- pmfl_object.add(key, condition, func)
+- pmfl_object.neither(func)
+- pmfl_object.remove(key)
+- pmfl_object.clear()
+- pmfl_object.load(...rest)
+- pmfl_object.unload(...rest)
+- pmfl_object.match(args, other_args)
 ---
-### pmflObject2
-##### Another instance of 'pmfl' is the return value of the `pmfl.make2()` function. Unlike `pmflObject`, the matching data for this object cannot be removed.
+### pmfl_object2
+##### Another instance of 'pmfl' is the return value of the `pmfl.make2()` function. Unlike `pmfl_object`, the matching data for this object cannot be removed.
 #### contain
-- pmflObject2.add(condition, func)
-- pmflObject2.neither(func)
-- pmflObject2.clear()
-- pmflObject2.load(...rest)
-- pmflObject2.match(args,otherArgs)
+- pmfl_object2.add(condition, func)
+- pmfl_object2.neither(func)
+- pmfl_object2.clear()
+- pmfl_object2.load(...rest)
+- pmfl_object2.match(args,other_args)
 ---
 ## method
 ### pmfl.make()
-##### Call this function to return the instance object `pmflObject` of `pmfl`.
-#### return：pmflObject
+##### Call this function to return the instance object `pmfl_object` of `pmfl`.
+#### return：pmfl_object
 ---
 ### pmfl.m()
 ##### Short for `pmfl.make()`.
-#### return：pmflObject
+#### return：pmfl_object
 ---
 ### pmfl.make2()
-##### Call this function to return the instance object `pmflObject2` of `pmfl`.
-#### return：pmflObject2
+##### Call this function to return the instance object `pmfl_object2` of `pmfl`.
+#### return：pmfl_object2
 ---
 ### pmfl.m2()
 ##### Short for `pmfl.make2()`.
-#### return：pmflObject2
+#### return：pmfl_object2
 ---
-### pmflObject.add(key, condition, func)
-##### Add matching names, conditions, and callback functions to the `pmflObject` object. Abbreviated as `pmflObject.a(key, condition, func)`.
+### pmfl_object.add(key, condition, func)
+##### Add matching names, conditions, and callback functions to the `pmfl_object` object. Abbreviated as `pmfl_object.a(key, condition, func)`.
 #### parameter
 - `key: String` The name of the data to match.
 - `condition: Array/Function` The conditions for matching data.
 - `func: Function` A callback function that is executed when the matching data succeeds.
-#### return：pmflObject
+#### return：pmfl_object
 ---
-### pmflObject.neither(func)
-##### The option that is executed when all conditions fail to match. Abbreviated as `pmflObject.n(func)`.
+### pmfl_object.neither(func)
+##### The option that is executed when all conditions fail to match. Abbreviated as `pmfl_object.n(func)`.
 #### parameter
 - `func: Function` A callback function that is executed when all conditions do not match.
-#### return：pmflObject
+#### return：pmfl_object
 ---
-### pmflObject.remove(key)
-##### Remove the matching data that has been added to the `pmflObject` object. Abbreviated as `pmflObject.r(key)`.
+### pmfl_object.remove(key)
+##### Remove the matching data that has been added to the `pmfl_object` object. Abbreviated as `pmfl_object.r(key)`.
 #### parameter
 - `key: String` The name of the matching data that needs to be removed. When `key` does not exist, remove the `neither` data.
-#### return：pmflObject
+#### return：pmfl_object
 ---
-### pmflObject.clear()
-##### Remove all matching data, including `neither` data. Abbreviated as `pmflObject.c()`.
-#### return：pmflObject
+### pmfl_object.clear()
+##### Remove all matching data, including `neither` data. Abbreviated as `pmfl_object.c()`.
+#### return：pmfl_object
 ---
-### pmflObject.load(...rest)
-##### Add matching names, conditions, and callback functions to the `pmflObject` object in bulk. Abbreviated as `pmflObject.l(...rest)`.
+### pmfl_object.load(...rest)
+##### Add matching names, conditions, and callback functions to the `pmfl_object` object in bulk. Abbreviated as `pmfl_object.l(...rest)`.
 #### parameter
-- `rest: Array<Array>` Each element is an array of arrays. The data of 1, 2, and 3 of each element is the matching name, condition, and callback function added for the `pmflObject` object.
-#### return：pmflObject
+- `rest: Array<Array>` Each element is an array of arrays. The data of 1, 2, and 3 of each element is the matching name, condition, and callback function added for the `pmfl_object` object.
+#### return：pmfl_object
 ---
-### pmflObject.unload(...rest)
-##### The matching data that has been added in the `pmflObject` object is removed in batches. Abbreviated as `pmflObject.u(...rest)`.
+### pmfl_object.unload(...rest)
+##### The matching data that has been added in the `pmfl_object` object is removed in batches. Abbreviated as `pmfl_object.u(...rest)`.
 #### parameter
 - `rest: Array<String>` Each element of the array is a string and is the name of the matching data to be removed. When the length of the array is 0, it means that the `neither` data is removed.
-#### return：pmflObject
+#### return：pmfl_object
 ---
-### pmflObject.match(args, otherArgs)
-##### Perform a match. Abbreviated as `pmflObject.m(args, otherArgs)`.
+### pmfl_object.match(args, other_args)
+##### Perform a match. Abbreviated as `pmfl_object.m(args, other_args)`.
 #### parameter
-- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmflObject.add(key, condition, func)` function.
-- `otherArgs: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
-#### return：pmflObject
+- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmfl_object.add(key, condition, func)` function.
+- `other_args: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
+#### return：pmfl_object
 ---
-#### Example of using `pmflObject`
+#### Example of using `pmfl_object`
 ```javascript
 import { pmfl } from 'pmfl'
 pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
@@ -198,37 +198,37 @@ pmfl.make().add("one",(data)=>{return data[0]===1},(data)=>{console.log("it is o
 //log "it is one"
 ```
 ---
-### pmflObject2.add(condition, func)
-##### Add matching conditions and callback functions to the `pmflObject2` object. Abbreviated as `pmflObject2.a(condition, func)`.
+### pmfl_object2.add(condition, func)
+##### Add matching conditions and callback functions to the `pmfl_object2` object. Abbreviated as `pmfl_object2.a(condition, func)`.
 #### parameter
 - `condition: Array/Function` The conditions for matching data.
 - `func: Function` The callback function executed after the match is successful.
-#### return：pmflObject2
+#### return：pmfl_object2
 ---
-### pmflObject2.neither(func)
-##### The option that is executed when all conditions fail to match. Abbreviated as `pmflObject2.n(func)`.
+### pmfl_object2.neither(func)
+##### The option that is executed when all conditions fail to match. Abbreviated as `pmfl_object2.n(func)`.
 #### parameter
 - `func: Function` A callback function that is executed when all conditions do not match.
-#### return：pmflObject2
+#### return：pmfl_object2
 ---
-### pmflObject2.clear()
-##### Remove all matching data, including `neither` data. Abbreviated as `pmflObject2.c()`.
-#### return：pmflObject2
+### pmfl_object2.clear()
+##### Remove all matching data, including `neither` data. Abbreviated as `pmfl_object2.c()`.
+#### return：pmfl_object2
 ---
-### pmflObject2.load(...rest)
-##### Add matching conditions and callback functions to the `pmflObject2` object in batches. Abbreviated as `pmflObject2.l(...rest)`.
+### pmfl_object2.load(...rest)
+##### Add matching conditions and callback functions to the `pmfl_object2` object in batches. Abbreviated as `pmfl_object2.l(...rest)`.
 #### parameter
-- `rest: Array<Array>` Each element is an array of arrays. The data of No. 1 and No. 2 of each element are the matching conditions and callback functions added for the `pmflObject2` object.
-#### return：pmflObject2
+- `rest: Array<Array>` Each element is an array of arrays. The data of No. 1 and No. 2 of each element are the matching conditions and callback functions added for the `pmfl_object2` object.
+#### return：pmfl_object2
 ---
-### pmflObject2.match(args,otherArgs)
-##### Perform a match. Abbreviated as `pmflObject2.m(args, otherArgs)`.
+### pmfl_object2.match(args,other_args)
+##### Perform a match. Abbreviated as `pmfl_object2.m(args, other_args)`.
 #### parameter
-- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmflObject2.add(condition, func)` function.
-- `otherArgs: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
-#### return：pmflObject2
+- `args: Array` The actual data that needs to be matched corresponds to the `condition` parameter of the `pmfl_object2.add(condition, func)` function.
+- `other_args: Any` The data of the matching callback function needs to be passed in. If this parameter does not exist, `args` is passed as a parameter to the matching callback function.
+#### return：pmfl_object2
 ---
-#### Example of using `pmflObject2`
+#### Example of using `pmfl_object2`
 ```javascript
 import { pmfl } from 'pmfl'
 pmfl.make2().add([1],(data)=>{console.log("it is one")})
@@ -255,7 +255,7 @@ pmfl.make2().add((data)=>{return data[0]===1},(data)=>{console.log("it is one")}
 //log "it is one"
 ```
 ---
-### numSet(str)
+### num_set(str)
 ##### Used to match mathematical intervals.
 #### parameter
 - `str: String` The mathematical interval representation of the `String` type. There are 9 ways to represent:
@@ -269,27 +269,27 @@ pmfl.make2().add((data)=>{return data[0]===1},(data)=>{console.log("it is one")}
 8. Right open interval： (,2)  n<2
 9. Unbounded interval： (,)  Infinity, can match any object
 ---
-#### Example used by `numSet(str)`
+#### Example used by `num_set(str)`
 ```javascript
-import { pmfl, numSet } from 'pmfl'
-pmfl.make2().add([numSet("[1,20]")], (data) => { console.log("it is 1~20") })
-  .add([numSet("(-20,-5)")], (data) => { console.log("it is -20~-5") })
+import { pmfl, num_set } from 'pmfl'
+pmfl.make2().add([num_set("[1,20]")], (data) => { console.log("it is 1~20") })
+  .add([num_set("(-20,-5)")], (data) => { console.log("it is -20~-5") })
   .neither((data) => { console.log("it is neither") })
   .match([2])  //log "it is 1~20"
   .match([-20]) //log "it is neither"
   .match([-10]) //log "it is -20~-5"
 ```
 ---
-### dataSet(...args)
+### data_set(...args)
 ##### Used to match one of multiple data.
 #### parameter
 - `args: Array<Any>` A data set that needs to be matched.
 ---
-#### Example used by `dataSet(...args)`
+#### Example used by `data_set(...args)`
 ```javascript
-import { pmfl, dataSet } from 'pmfl'
-pmfl.make2().add([dataSet(1,2,3,4,5)], (data) => { console.log("it is 1-5 numbers") })
-  .add([dataSet("1","2")], (data) => { console.log("it is 1 and 2 string") })
+import { pmfl, data_set } from 'pmfl'
+pmfl.make2().add([data_set(1,2,3,4,5)], (data) => { console.log("it is 1-5 numbers") })
+  .add([data_set("1","2")], (data) => { console.log("it is 1 and 2 string") })
   .neither((data) => { console.log("it is neither") })
   .match([2])  //log "it is 1-5 numbers"
   .match(["2"]) //log "it is 1 and 2 string"

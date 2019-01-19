@@ -41,7 +41,7 @@ npm i pmfl --save
 ### ignore
 ##### 可以匹配任何值的对象。
 #### 包含
-- ignore.isIgnore: Boolean
+- ignore.is_ignore: Boolean
 #### 例子
 ```javascript
 import { pmfl, ignore } from 'pmfl'
@@ -78,87 +78,87 @@ pmfl.make().add("string",[type.string],(data)=>{console.log("it is string")})
 //log "it is string"
 ```
 ---
-### pmflObject
+### pmfl_object
 ##### `pmfl`的实例对象之一，是`pmfl.make()`函数的返回值。
 #### 包含
-- pmflObject.add(key, condition, func)
-- pmflObject.neither(func)
-- pmflObject.remove(key)
-- pmflObject.clear()
-- pmflObject.load(...rest)
-- pmflObject.unload(...rest)
-- pmflObject.match(args, otherArgs)
+- pmfl_object.add(key, condition, func)
+- pmfl_object.neither(func)
+- pmfl_object.remove(key)
+- pmfl_object.clear()
+- pmfl_object.load(...rest)
+- pmfl_object.unload(...rest)
+- pmfl_object.match(args, other_args)
 ---
-### pmflObject2
-##### 'pmfl'的另一个实例对象，是`pmfl.make2()`函数的返回值，与`pmflObject`不同的是，此对象的匹配数据无法被移除。
+### pmfl_object2
+##### 'pmfl'的另一个实例对象，是`pmfl.make2()`函数的返回值，与`pmfl_object`不同的是，此对象的匹配数据无法被移除。
 #### 包含
-- pmflObject2.add(condition, func)
-- pmflObject2.neither(func)
-- pmflObject2.clear()
-- pmflObject2.load(...rest)
-- pmflObject2.match(args,otherArgs)
+- pmfl_object2.add(condition, func)
+- pmfl_object2.neither(func)
+- pmfl_object2.clear()
+- pmfl_object2.load(...rest)
+- pmfl_object2.match(args,other_args)
 ---
 ## 方法
 ### pmfl.make()
-##### 调用此函数返回`pmfl`的实例对象`pmflObject`。
-#### 返回值：pmflObject
+##### 调用此函数返回`pmfl`的实例对象`pmfl_object`。
+#### 返回值：pmfl_object
 ---
 ### pmfl.m()
 ##### `pmfl.make()`的简写。
-#### 返回值：pmflObject
+#### 返回值：pmfl_object
 ---
 ### pmfl.make2()
-##### 调用此函数返回`pmfl`的实例对象`pmflObject2`。
-#### 返回值：pmflObject2
+##### 调用此函数返回`pmfl`的实例对象`pmfl_object2`。
+#### 返回值：pmfl_object2
 ---
 ### pmfl.m2()
 ##### `pmfl.make2()`的简写。
-#### 返回值：pmflObject2
+#### 返回值：pmfl_object2
 ---
-### pmflObject.add(key, condition, func)
-##### 为`pmflObject`对象添加匹配名称、条件、回调函数。简写为`pmflObject.a(key, condition, func)`。
+### pmfl_object.add(key, condition, func)
+##### 为`pmfl_object`对象添加匹配名称、条件、回调函数。简写为`pmfl_object.a(key, condition, func)`。
 #### 参数
 - `key: String` 需要匹配数据的名称。
 - `condition: Array/Function` 匹配数据的条件。
 - `func: Function` 匹配数据成功时执行的回调函数。
-#### 返回值：pmflObject
+#### 返回值：pmfl_object
 ---
-### pmflObject.neither(func)
-##### 当所有条件都无法匹配时，所执行的选项。简写为`pmflObject.n(func)`。
+### pmfl_object.neither(func)
+##### 当所有条件都无法匹配时，所执行的选项。简写为`pmfl_object.n(func)`。
 #### 参数
 - `func: Function` 所有条件都不匹配时执行的回调函数。
-#### 返回值：pmflObject
+#### 返回值：pmfl_object
 ---
-### pmflObject.remove(key)
-##### 移除`pmflObject`对象中已经添加的匹配数据。简写为`pmflObject.r(key)`。
+### pmfl_object.remove(key)
+##### 移除`pmfl_object`对象中已经添加的匹配数据。简写为`pmfl_object.r(key)`。
 #### 参数
 - `key: String` 需要移除的匹配数据名称，当`key`不存在时，移除`neither`数据。
-#### 返回值：pmflObject
+#### 返回值：pmfl_object
 ---
-### pmflObject.clear()
-##### 移除全部匹配数据，包括`neither`数据。简写为`pmflObject.c()`。
-#### 返回值：pmflObject
+### pmfl_object.clear()
+##### 移除全部匹配数据，包括`neither`数据。简写为`pmfl_object.c()`。
+#### 返回值：pmfl_object
 ---
-### pmflObject.load(...rest)
-##### 批量为`pmflObject`对象添加匹配名称、条件、回调函数。简写为`pmflObject.l(...rest)`。
+### pmfl_object.load(...rest)
+##### 批量为`pmfl_object`对象添加匹配名称、条件、回调函数。简写为`pmfl_object.l(...rest)`。
 #### 参数
-- `rest: Array<Array>` 每个元素都是数组的数组。每个元素的1、2、3号数据分别是为`pmflObject`对象添加的匹配名称、条件、回调函数。
-#### 返回值：pmflObject
+- `rest: Array<Array>` 每个元素都是数组的数组。每个元素的1、2、3号数据分别是为`pmfl_object`对象添加的匹配名称、条件、回调函数。
+#### 返回值：pmfl_object
 ---
-### pmflObject.unload(...rest)
-##### 批量移除`pmflObject`对象中已经添加的匹配数据。简写为`pmflObject.u(...rest)`。
+### pmfl_object.unload(...rest)
+##### 批量移除`pmfl_object`对象中已经添加的匹配数据。简写为`pmfl_object.u(...rest)`。
 #### 参数
 - `rest: Array<String>` 数组每个元素都是字符串，是要移除的匹配数据的名称。数组长度为0时，表示移除`neither`数据。
-#### 返回值：pmflObject
+#### 返回值：pmfl_object
 ---
-### pmflObject.match(args, otherArgs)
-##### 执行匹配。简写为`pmflObject.m(args, otherArgs)`。
+### pmfl_object.match(args, other_args)
+##### 执行匹配。简写为`pmfl_object.m(args, other_args)`。
 #### 参数
-- `args: Array` 需要匹配的真实数据，对应`pmflObject.add(key, condition, func)`函数的`condition`参数。
-- `otherArgs: Any` 需要传入匹配的回调函数的数据，如果此参数不存在，则`args`作为参数传入匹配的回调函数。
-#### 返回值：pmflObject
+- `args: Array` 需要匹配的真实数据，对应`pmfl_object.add(key, condition, func)`函数的`condition`参数。
+- `other_args: Any` 需要传入匹配的回调函数的数据，如果此参数不存在，则`args`作为参数传入匹配的回调函数。
+#### 返回值：pmfl_object
 ---
-#### `pmflObject`使用的例子
+#### `pmfl_object`使用的例子
 ```javascript
 import { pmfl } from 'pmfl'
 pmfl.make().add("one",[1],(data)=>{console.log("it is one")})
@@ -198,37 +198,37 @@ pmfl.make().add("one",(data)=>{return data[0]===1},(data)=>{console.log("it is o
 //log "it is one"
 ```
 ---
-### pmflObject2.add(condition, func)
-##### 为`pmflObject2`对象添加匹配条件、回调函数。简写为`pmflObject2.a(condition, func)`。
+### pmfl_object2.add(condition, func)
+##### 为`pmfl_object2`对象添加匹配条件、回调函数。简写为`pmfl_object2.a(condition, func)`。
 #### 参数
 - `condition: Array/Function` 匹配数据的条件。
 - `func: Function` 匹配成功后执行的回调函数。
-#### 返回值：pmflObject2
+#### 返回值：pmfl_object2
 ---
-### pmflObject2.neither(func)
-##### 当所有条件都无法匹配时，所执行的选项。简写为`pmflObject2.n(func)`。
+### pmfl_object2.neither(func)
+##### 当所有条件都无法匹配时，所执行的选项。简写为`pmfl_object2.n(func)`。
 #### 参数
 - `func: Function` 所有条件都不匹配时执行的回调函数。
-#### 返回值：pmflObject2
+#### 返回值：pmfl_object2
 ---
-### pmflObject2.clear()
-##### 移除全部匹配数据，包括`neither`数据。简写为`pmflObject2.c()`。
-#### 返回值：pmflObject2
+### pmfl_object2.clear()
+##### 移除全部匹配数据，包括`neither`数据。简写为`pmfl_object2.c()`。
+#### 返回值：pmfl_object2
 ---
-### pmflObject2.load(...rest)
-##### 批量为`pmflObject2`对象添加匹配条件、回调函数。简写为`pmflObject2.l(...rest)`。
+### pmfl_object2.load(...rest)
+##### 批量为`pmfl_object2`对象添加匹配条件、回调函数。简写为`pmfl_object2.l(...rest)`。
 #### 参数
-- `rest: Array<Array>` 每个元素都是数组的数组。每个元素的1、2号数据分别是为`pmflObject2`对象添加的匹配条件、回调函数。
-#### 返回值：pmflObject2
+- `rest: Array<Array>` 每个元素都是数组的数组。每个元素的1、2号数据分别是为`pmfl_object2`对象添加的匹配条件、回调函数。
+#### 返回值：pmfl_object2
 ---
-### pmflObject2.match(args,otherArgs)
-##### 执行匹配。简写为`pmflObject2.m(args,otherArgs)`。
+### pmfl_object2.match(args,other_args)
+##### 执行匹配。简写为`pmfl_object2.m(args,other_args)`。
 #### 参数
-- `args: Array` 需要匹配的真实数据，对应`pmflObject2.add(condition, func)`函数的`condition`参数。
-- `otherArgs: Any` 需要传入匹配的回调函数的数据，如果此参数不存在，则`args`作为参数传入匹配的回调函数。
-#### 返回值：pmflObject2
+- `args: Array` 需要匹配的真实数据，对应`pmfl_object2.add(condition, func)`函数的`condition`参数。
+- `other_args: Any` 需要传入匹配的回调函数的数据，如果此参数不存在，则`args`作为参数传入匹配的回调函数。
+#### 返回值：pmfl_object2
 ---
-#### `pmflObject2`使用的例子
+#### `pmfl_object2`使用的例子
 ```javascript
 import { pmfl } from 'pmfl'
 pmfl.make2().add([1],(data)=>{console.log("it is one")})
@@ -255,7 +255,7 @@ pmfl.make2().add((data)=>{return data[0]===1},(data)=>{console.log("it is one")}
 //log "it is one"
 ```
 ---
-### numSet(str)
+### num_set(str)
 ##### 用于匹配数学区间。
 #### 参数
 - `str: String` `String`类型的数学区间表示。共有9种表示方法：
@@ -269,27 +269,27 @@ pmfl.make2().add((data)=>{return data[0]===1},(data)=>{console.log("it is one")}
 8. 右开区间： (,2)  n<2
 9. 无界区间： (,)  无穷，可以匹配任意对象
 ---
-#### `numSet(str)`使用的例子
+#### `num_set(str)`使用的例子
 ```javascript
-import { pmfl, numSet } from 'pmfl'
-pmfl.make2().add([numSet("[1,20]")], (data) => { console.log("it is 1~20") })
-  .add([numSet("(-20,-5)")], (data) => { console.log("it is -20~-5") })
+import { pmfl, num_set } from 'pmfl'
+pmfl.make2().add([num_set("[1,20]")], (data) => { console.log("it is 1~20") })
+  .add([num_set("(-20,-5)")], (data) => { console.log("it is -20~-5") })
   .neither((data) => { console.log("it is neither") })
   .match([2])  //log "it is 1~20"
   .match([-20]) //log "it is neither"
   .match([-10]) //log "it is -20~-5"
 ```
 ---
-### dataSet(...args)
+### data_set(...args)
 ##### 用于匹配多个数据中的一个。
 #### 参数
 - `args: Array<Any>` 需要匹配的数据集。
 ---
-#### `dataSet(...args)`使用的例子
+#### `data_set(...args)`使用的例子
 ```javascript
-import { pmfl, dataSet } from 'pmfl'
-pmfl.make2().add([dataSet(1,2,3,4,5)], (data) => { console.log("it is 1-5 numbers") })
-  .add([dataSet("1","2")], (data) => { console.log("it is 1 and 2 string") })
+import { pmfl, data_set } from 'pmfl'
+pmfl.make2().add([data_set(1,2,3,4,5)], (data) => { console.log("it is 1-5 numbers") })
+  .add([data_set("1","2")], (data) => { console.log("it is 1 and 2 string") })
   .neither((data) => { console.log("it is neither") })
   .match([2])  //log "it is 1-5 numbers"
   .match(["2"]) //log "it is 1 and 2 string"

@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.type = exports.pmfl = exports.ignore = exports.dataSet = exports.numSet = undefined;
+exports.type = exports.pmfl = exports.ignore = exports.data_set = exports.num_set = undefined;
 
-var _slicedToArray = function() { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) { return typeof obj; } : function(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _immutable = require("immutable");
 
@@ -15,10 +15,9 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//函数typeOf
-var typeOf = function typeOf(obj) {
+var type_of = function type_of(obj) {
   var class2type = {};
-  "Boolean Number String Function Array Date RegExp Object Error".split(" ").forEach(function(e, i) {
+  "Boolean Number String Function Array Date RegExp Object Error".split(" ").forEach(function (e) {
     class2type["[object " + e + "]"] = e.toLowerCase();
   });
   if (obj == null) {
@@ -29,36 +28,36 @@ var typeOf = function typeOf(obj) {
 
 var make = function make() {
   var obj = {};
-  var keyData = _immutable2.default.Map({});
-  var conditionData = _immutable2.default.Map({});
-  var functionData = _immutable2.default.Map({});
-  var neitherData = null;
+  var key_data = _immutable2.default.Map({});
+  var condition_data = _immutable2.default.Map({});
+  var function_data = _immutable2.default.Map({});
+  var neither_data = null;
   var add = function add(key, condition, func) {
-    keyData = keyData.set(key, key);
-    conditionData = conditionData.set(key, condition);
-    functionData = functionData.set(key, func);
+    key_data = key_data.set(key, key);
+    condition_data = condition_data.set(key, condition);
+    function_data = function_data.set(key, func);
     return obj;
   };
   var neither = function neither(func) {
-    neitherData = func;
+    neither_data = func;
     return obj;
   };
   var remove = function remove(key) {
     if (key === undefined) {
-      neitherData = null;
+      neither_data = null;
     }
-    if (keyData.has(key)) {
-      keyData = keyData.delete(key);
-      conditionData = conditionData.delete(key);
-      functionData = functionData.delete(key);
+    if (key_data.has(key)) {
+      key_data = key_data.delete(key);
+      condition_data = condition_data.delete(key);
+      function_data = function_data.delete(key);
     }
     return obj;
   };
   var clear = function clear() {
-    keyData = _immutable2.default.Map({});
-    conditionData = _immutable2.default.Map({});
-    functionData = _immutable2.default.Map({});
-    neitherData = null;
+    key_data = _immutable2.default.Map({});
+    condition_data = _immutable2.default.Map({});
+    function_data = _immutable2.default.Map({});
+    neither_data = null;
     return obj;
   };
   var load = function load() {
@@ -66,15 +65,15 @@ var make = function make() {
       rest[_key] = arguments[_key];
     }
 
-    rest.map(function(data) {
+    rest.map(function (data) {
       var _data = _slicedToArray(data, 3),
-        key = _data[0],
-        condition = _data[1],
-        func = _data[2];
+          key = _data[0],
+          condition = _data[1],
+          func = _data[2];
 
-      keyData = keyData.set(key, key);
-      conditionData = conditionData.set(key, condition);
-      functionData = functionData.set(key, func);
+      key_data = key_data.set(key, key);
+      condition_data = condition_data.set(key, condition);
+      function_data = function_data.set(key, func);
       return null;
     });
     return obj;
@@ -85,66 +84,66 @@ var make = function make() {
     }
 
     if (rest.length === 0) {
-      neitherData = null;
+      neither_data = null;
     }
-    rest.map(function(data) {
-      if (keyData.has(data)) {
-        keyData = keyData.delete(data);
-        conditionData = conditionData.delete(data);
-        functionData = functionData.delete(data);
+    rest.map(function (data) {
+      if (key_data.has(data)) {
+        key_data = key_data.delete(data);
+        condition_data = condition_data.delete(data);
+        function_data = function_data.delete(data);
       }
       return null;
     });
     return obj;
   };
-  var match = function match(args, otherArgs) {
+  var match = function match(args, other_args) {
     var key = null;
-    var keyList = [];
-    keyData.map(function(data) {
-      return keyList.push(data);
+    var key_list = [];
+    key_data.map(function (data) {
+      return key_list.push(data);
     });
-    for (var i = 0; i < keyList.length; i++) {
+    for (var i = 0; i < key_list.length; i++) {
       if (key !== null) {
         break;
       }
-      if (typeOf(conditionData.get(keyList[i])) === "function") {
-        if (conditionData.get(keyList[i])(args) === true) {
-          key = keyList[i];
+      if (type_of(condition_data.get(key_list[i])) === "function") {
+        if (condition_data.get(key_list[i])(args) === true) {
+          key = key_list[i];
         }
-      } else if (typeOf(conditionData.get(keyList[i])) === "array") {
+      } else if (type_of(condition_data.get(key_list[i])) === "array") {
         var count = 0;
-        for (var j = 0; j < conditionData.get(keyList[i]).length; j++) {
-          if (conditionData.get(keyList[i])[j] === undefined) {
+        for (var j = 0; j < condition_data.get(key_list[i]).length; j++) {
+          if (condition_data.get(key_list[i])[j] === undefined) {
             if (args[j] === undefined) count++;
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+          } else if (condition_data.get(key_list[i])[j] === args[j]) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_data_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isIgnore) {
+          } else if (condition_data.get(key_list[i])[j].is_ignore) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_num_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++;
-          } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
+          } else if (type_of(condition_data.get(key_list[i])[j]) === "regexp" && condition_data.get(key_list[i])[j].test(args[j])) {
             count++;
           }
         }
-        if (count === conditionData.get(keyList[i]).length) {
-          key = keyList[i];
+        if (count === condition_data.get(key_list[i]).length) {
+          key = key_list[i];
           break;
         }
       }
     }
-    if (otherArgs !== undefined) {
+    if (other_args !== undefined) {
       if (key !== null) {
-        functionData.get(key)(otherArgs);
-      } else if (key === null && neitherData !== null) {
-        neitherData(otherArgs);
+        function_data.get(key)(other_args);
+      } else if (key === null && neither_data !== null) {
+        neither_data(other_args);
       }
     } else {
       if (key !== null) {
-        functionData.get(key)(args);
-      } else if (key === null && neitherData !== null) {
-        neitherData(args);
+        function_data.get(key)(args);
+      } else if (key === null && neither_data !== null) {
+        neither_data(args);
       }
     }
 
@@ -168,26 +167,26 @@ var make = function make() {
 };
 var make2 = function make2() {
   var obj = {};
-  var keyData = _immutable2.default.Map({});
-  var conditionData = _immutable2.default.Map({});
-  var functionData = _immutable2.default.Map({});
-  var neitherData = null;
+  var key_data = _immutable2.default.Map({});
+  var condition_data = _immutable2.default.Map({});
+  var function_data = _immutable2.default.Map({});
+  var neither_data = null;
   var add = function add(condition, func) {
     var tempMut = Symbol();
-    keyData = keyData.set(tempMut, tempMut);
-    conditionData = conditionData.set(tempMut, condition);
-    functionData = functionData.set(tempMut, func);
+    key_data = key_data.set(tempMut, tempMut);
+    condition_data = condition_data.set(tempMut, condition);
+    function_data = function_data.set(tempMut, func);
     return obj;
   };
   var neither = function neither(func) {
-    neitherData = func;
+    neither_data = func;
     return obj;
   };
   var clear = function clear() {
-    keyData = _immutable2.default.Map({});
-    conditionData = _immutable2.default.Map({});
-    functionData = _immutable2.default.Map({});
-    neitherData = null;
+    key_data = _immutable2.default.Map({});
+    condition_data = _immutable2.default.Map({});
+    function_data = _immutable2.default.Map({});
+    neither_data = null;
     return obj;
   };
   var load = function load() {
@@ -195,68 +194,68 @@ var make2 = function make2() {
       rest[_key3] = arguments[_key3];
     }
 
-    rest.map(function(data) {
+    rest.map(function (data) {
       var tempMut = Symbol();
 
       var _data2 = _slicedToArray(data, 2),
-        condition = _data2[0],
-        func = _data2[1];
+          condition = _data2[0],
+          func = _data2[1];
 
-      keyData = keyData.set(tempMut, tempMut);
-      conditionData = conditionData.set(tempMut, condition);
-      functionData = functionData.set(tempMut, func);
+      key_data = key_data.set(tempMut, tempMut);
+      condition_data = condition_data.set(tempMut, condition);
+      function_data = function_data.set(tempMut, func);
       return null;
     });
     return obj;
   };
-  var match = function match(args, otherArgs) {
+  var match = function match(args, other_args) {
     var key = null;
-    var keyList = [];
-    keyData.map(function(data) {
-      return keyList.push(data);
+    var key_list = [];
+    key_data.map(function (data) {
+      return key_list.push(data);
     });
-    for (var i = 0; i < keyList.length; i++) {
+    for (var i = 0; i < key_list.length; i++) {
       if (key !== null) {
         break;
       }
-      if (typeOf(conditionData.get(keyList[i])) === "function") {
-        if (conditionData.get(keyList[i])(args) === true) {
-          key = keyList[i];
+      if (type_of(condition_data.get(key_list[i])) === "function") {
+        if (condition_data.get(key_list[i])(args) === true) {
+          key = key_list[i];
         }
-      } else if (typeOf(conditionData.get(keyList[i])) === "array") {
+      } else if (type_of(condition_data.get(key_list[i])) === "array") {
         var count = 0;
-        for (var j = 0; j < conditionData.get(keyList[i]).length; j++) {
-          if (conditionData.get(keyList[i])[j] === undefined) {
+        for (var j = 0; j < condition_data.get(key_list[i]).length; j++) {
+          if (condition_data.get(key_list[i])[j] === undefined) {
             if (args[j] === undefined) count++;
-          } else if (conditionData.get(keyList[i])[j] === args[j]) {
+          } else if (condition_data.get(key_list[i])[j] === args[j]) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isIgnore) {
+          } else if (condition_data.get(key_list[i])[j].is_ignore) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isDataSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_data_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++;
-          } else if (conditionData.get(keyList[i])[j].isNumSet && conditionData.get(keyList[i])[j].play(args[j])) {
+          } else if (condition_data.get(key_list[i])[j].is_num_set && condition_data.get(key_list[i])[j].play(args[j])) {
             count++;
-          } else if (typeOf(conditionData.get(keyList[i])[j]) === "regexp" && conditionData.get(keyList[i])[j].test(args[j])) {
+          } else if (type_of(condition_data.get(key_list[i])[j]) === "regexp" && condition_data.get(key_list[i])[j].test(args[j])) {
             count++;
           }
         }
-        if (count === conditionData.get(keyList[i]).length) {
-          key = keyList[i];
+        if (count === condition_data.get(key_list[i]).length) {
+          key = key_list[i];
           break;
         }
       }
     }
-    if (otherArgs !== undefined) {
+    if (other_args !== undefined) {
       if (key !== null) {
-        functionData.get(key)(otherArgs);
-      } else if (key === null && neitherData !== null) {
-        neitherData(otherArgs);
+        function_data.get(key)(other_args);
+      } else if (key === null && neither_data !== null) {
+        neither_data(other_args);
       }
     } else {
       if (key !== null) {
-        functionData.get(key)(args);
-      } else if (key === null && neitherData !== null) {
-        neitherData(args);
+        function_data.get(key)(args);
+      } else if (key === null && neither_data !== null) {
+        neither_data(args);
       }
     }
     return obj;
@@ -273,39 +272,39 @@ var make2 = function make2() {
   obj.m = match;
   return obj;
 };
-var numSet = exports.numSet = function numSet(str) {
+var num_set = exports.num_set = function num_set(str) {
   var obj = {
-    isNumSet: true
+    is_num_set: true
   };
   var mt = null;
   var mte = null;
   var lt = null;
   var lte = null;
-  var tempStr = str.replace(/\s+/g, "");
-  var tempArray = tempStr.split(",");
-  if (/^\[-?\d+,-?\d+\]$/.test(tempStr) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "");
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,-?\d+\)$/.test(tempStr) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "");
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\[-?\d+,-?\d+\)$/.test(tempStr) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "");
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,-?\d+\]$/.test(tempStr) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "");
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\[-?\d+,\)$/.test(tempStr) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
-    mte = tempArray[0].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(-?\d+,\)$/.test(tempStr) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(tempStr)) {
-    mt = tempArray[0].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(,-?\d+\]$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(tempStr)) {
-    lte = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(,-?\d+\)$/.test(tempStr) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(tempStr)) {
-    lt = tempArray[1].replace(/[^0-9.-]/ig, "");
-  } else if (/^\(,\)$/.test(str)) { }
+  var temp_str = str.replace(/\s+/g, "");
+  var temp_array = temp_str.split(",");
+  if (/^\[-?\d+,-?\d+\]$/.test(temp_str) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "");
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(-?\d+,-?\d+\)$/.test(temp_str) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "");
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\[-?\d+,-?\d+\)$/.test(temp_str) || /^\[-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\)$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "");
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(-?\d+,-?\d+\]$/.test(temp_str) || /^\(-?\d+,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?\d+\]$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "");
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\[-?\d+,\)$/.test(temp_str) || /^\[-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(temp_str)) {
+    mte = temp_array[0].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(-?\d+,\)$/.test(temp_str) || /^\(-?([1-9]\d*.\d*|0\.\d*[1-9]\d*),\)$/.test(temp_str)) {
+    mt = temp_array[0].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(,-?\d+\]$/.test(temp_str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\]$/.test(temp_str)) {
+    lte = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(,-?\d+\)$/.test(temp_str) || /^\(,-?([1-9]\d*.\d*|0\.\d*[1-9]\d*)\)$/.test(temp_str)) {
+    lt = temp_array[1].replace(/[^0-9.-]/ig, "");
+  } else if (/^\(,\)$/.test(str)) {}
   var play = function play(num) {
-    if (typeOf(num) !== 'number') {
+    if (type_of(num) !== 'number') {
       return false;
     }
     var count = -4;
@@ -346,13 +345,13 @@ var numSet = exports.numSet = function numSet(str) {
   obj.play = play;
   return obj;
 };
-var dataSet = exports.dataSet = function dataSet() {
+var data_set = exports.data_set = function data_set() {
   for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
     args[_key4] = arguments[_key4];
   }
 
   var obj = {
-    isDataSet: true
+    is_data_set: true
   };
   var play = function play(str) {
     for (var i = 0; i < args.length; i++) {
@@ -366,7 +365,7 @@ var dataSet = exports.dataSet = function dataSet() {
   return obj;
 };
 var ignore = exports.ignore = {
-  isIgnore: true
+  is_ignore: true
 };
 var pmfl = exports.pmfl = {
   make: make,
@@ -375,7 +374,7 @@ var pmfl = exports.pmfl = {
   m2: make2
 };
 var type = exports.type = {
-  of: typeOf,
+  of: type_of,
   boolean: "boolean",
   number: "number",
   string: "string",
